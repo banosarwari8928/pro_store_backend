@@ -9,4 +9,8 @@ class ProductDetail extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductDetailFactory> */
     use HasFactory;
+    public function product(){
+        return $this->belongsTo(Product::class);
+    }
+    
 }
