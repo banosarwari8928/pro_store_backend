@@ -15,4 +15,10 @@ class Product extends Model
     public function images(){
         return $this->morphMany(Image::class,"imageable");
     }
+    public function review(){
+        return $this->hasMany(Review::class);
+    }
+     public function cartItem(){
+        return $this->hasMany(CartItem::class);
+    }
 }
