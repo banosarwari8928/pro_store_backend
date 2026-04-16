@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
+use App\Http\Requests\ProudctUpdateREq;
 use App\Models\Image;
 // use App\Http\Controllers\Pr
 use App\Models\Product;
 use App\Models\Product_Deltail;
 use App\Models\ProductDetail;
+use Exception;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -73,9 +75,50 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProudctUpdateREq $request, string $id)
     {
         //
+        try{
+            $product=Product::findOrFail($id)->with(['images','pro_details'])->First();
+            $product->update([
+                "name"=>$request->name,
+                "price"=>$request->price,
+                "stock"=>$request->stock,
+            ]);
+            $product->save();
+            $productDetail=ProductDetail::where('product_id', $product->id)->first();
+            $productDetail->update(
+                [
+                    "description"=>$request->discribtion,
+                    "catagory"=>$request->catagory,
+                    "brand"=>$request->brand,
+                ]
+            );
+            $image=null;
+            $image2=null;
+            if($request->hasFile('image1')){
+                $image=$request->file('image1')->store('product_images','public');
+            }
+           $images= Image::where('imageable_type',Product::class)->where('imageable_id','product_id')->get();
+          for($i = 0; count($imagew)>0;$i++){
+            if($i ==0){
+
+            }else{
+
+            }
+          }
+           $images->update([
+            "imageable_id"=>$product->id,
+            "img_url"=>$image
+           ]);
+        }
+        catch(Exception $err){
+            return response()->json(
+                [
+                    "error"=>$err->getMessage(),
+                ],
+            );
+        };
     }
 
     /**
