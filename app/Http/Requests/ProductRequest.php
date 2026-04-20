@@ -26,7 +26,7 @@ class ProductRequest extends FormRequest
         return [
             //
             'name'=> ['required' ,'string','min:3', Rule::unique('products','name')],
-            'price'=> 'required|numaric|min:10|max:19000',
+            'price'=> 'required|integer|min:10|max:19000',
             'stock'=> 'required|integer|min:1|max:200',
             'brand'=> 'required|string',
             'description'=> 'required|string|min:10',
