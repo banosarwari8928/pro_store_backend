@@ -118,19 +118,28 @@ class productController extends Controller
      */
     public function destroy(string $id)
     {
+        try{
         $product = Product::findOrFail($id);
-        $product->load(["images", "productDetails"]);
+        $product->load(["images", "productDetails",'review']);
         $product->productDetails()->delete();
         foreach($product->images as $image){
             if(Storage::disk('public')->exists($image->img_url)){
                 Storage::disk('public')->delete($image->img_url);
             }
         }
+        $product->reviews()->delete();
         $product->images()->delete();
         $product->delete();
-        return response()->json([
-            "massege"=> "product deleted successfully with id" . $product->id,
-        ]);
-        
+        return [
+            "success"=>true,
+            "message"=>"product deleted"
+
+        ];
+        }catch(\Exception $e){
+            return response()->json([
+                "message" => "Productfailed",
+                "error" => $e->getMessage(),
+            ], 500);
+        }
     }
 }
