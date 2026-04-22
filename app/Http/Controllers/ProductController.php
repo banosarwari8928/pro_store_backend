@@ -88,7 +88,7 @@ class productController extends Controller
             $product->productDetails()->update([
                 "brand" => $request->brand,
                 "description" => $request->description,
-                "category" => $request->category,
+                "catagory" => $request->catagory,
             ]);
            $path1 = null ;
            $path2 = null ;
