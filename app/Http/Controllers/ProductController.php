@@ -37,7 +37,7 @@ class productController extends Controller
         $product->productDetails()->create([
             "brand" => $request->brand,
             "description" => $request->description,
-            "catagory" => $request->cat,
+            "catagory" => $request->catagory,
         ]);
         $images = [];
         if($request->hasFile('image1')){
