@@ -37,9 +37,9 @@ class productController extends Controller
         $product->productDetails()->create([
             "brand" => $request->brand,
             "description" => $request->description,
-            "catagory" => $request->catagory,
-        ]);
-        $images = [];
+            "catagory" => $request->category,
+            "product_id" => $product->id
+        ]); $images = [];
         if($request->hasFile('image1')){
            $images[] = ["img_url" => $request->file('image1')->store('images','public')];
         }
